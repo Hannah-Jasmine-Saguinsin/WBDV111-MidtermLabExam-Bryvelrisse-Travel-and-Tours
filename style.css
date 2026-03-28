@@ -38,6 +38,7 @@ body{
 
 .nav-right a{
     color: #306f91;
+    font-weight: 100;
     text-decoration: none;
     font-size: 1rem;
     gap: 2rem;
@@ -49,8 +50,7 @@ nav li{
     display: inline;
 }
 .hero-section{
-    
-    background-size: 150px 150px;
+    background: url(assets/hero.jpg) no-repeat center center;
     position: relative;
     height: 100vh;
     color: #fefeff;
