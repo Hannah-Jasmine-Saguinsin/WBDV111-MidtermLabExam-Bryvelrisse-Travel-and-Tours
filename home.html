@@ -37,14 +37,10 @@
 
 <body>
     <!--Navbar Section (SAGUINSIN)-->
-    <div class="navigation">
-        <div class="nav-left">
-            <a href="#section-1" class="logo">Bryvelrisse</a>
-        </div>
-        <div class="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-        <div class="nav-right">
+    <nav class="navigation">
+
+        <a href="#section-1" class="logo">Bryvelrisse</a>
+        <div class="nav-links">
             <a href="#section-1">Home</a>
 
             <a href="#section-2">Destinations</a>
@@ -59,8 +55,12 @@
 
             <a href="#section-7">FAQ</a>
 
-            <a href="#section-8">Contact</a>         
-        </div>
+            <a href="#section-8">Contact</a>
+            </div>       
+            <div class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
     </div>
         <!--Hero Section (SAGUINSIN)-->
     <div class="hero-section" id="section-1">
@@ -146,7 +146,14 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    
+    <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav-links');
+
+    toggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
+</script>
 </body>
 
 

@@ -2,7 +2,8 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
 }
 body{
     min-height: 100vh;
@@ -30,57 +31,96 @@ img{
     text-align: center;
 }
 /*Navbar Section, Hero Section, and Packages Section (SAGUINSIN)*/
-.menu-toggle{
+.navigation .menu-toggle{
     display: none;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 1em;
     font-size: 24px;
     cursor: pointer;
     color: #306f91;
 }
 
 .navigation{
+    position: sticky;
+    padding: 0 2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fefeff;
-    padding: 0 2em;
     min-height: 70px;
     width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid #306f91;
-    position: relative;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.50),
+        rgba(255, 255, 255, 0.50));
+    box-shadow: 0 2px 12px rgba(48, 111, 145, 0.5);
     top: 0;
     z-index: 1000;
 }
-.nav-left{
-    flex-shrink: 0;
-}
-.logo{
+.navigation .logo{
     color: #306f91;
     font-family: 'playfair display';
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 2em;
+    font-weight: bolder;
     text-decoration: none;
 }
-.nav-right{
+.navigation .nav-links{
+    font-family: 'sans-serif';
+    text-decoration: none;
+    display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     margin-left: auto;
-    display: flex;
     gap: 1.5rem;
     transition: all 0.3s ease;
 }
 
-.nav-right a{
-    color: #306f91;
+.navigation .nav-links a {
     text-decoration: none;
+    display: flex;
+    color: #306f91;
     font-size: 1rem;
     gap: 2rem;
     padding: 0.5rem 0;
     white-space: nowrap
     
 }
-nav li{
-    display: inline;
+@media screen and (max-width: 900px){
+    .navigation{
+        padding: 0;
+    }
+    .navigation .logo{
+        position: absolute;
+        padding: 1rem;
+    }
+    .navigation .menu-toggle{
+        display: block;
+    }
+    .nav-links{
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgba(255,255,255,0.85);
+        max-height: 0;
+        overflow: hidden;
+    }
+    .nav-links.active{
+        max-height: 500px;
+        padding: 20px 0;
+    }
+    .nav-links a{  
+        position: relative;
+        padding: 15px;
+        width: 100%;
+        font-weight: bolder;
+        text-align: center;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
 }
 .hero-section{
    background: radial-gradient(circle at left center,
@@ -105,6 +145,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 .hero-section h2{
     font-family: 'playfair display';
     font-weight: 900;
+    font-size: 3em;
 }  
 .hero-section p{
     color: #306f91;
