@@ -61,19 +61,62 @@ nav li{
     display: inline;
 }
 .hero-section{
-  height: 100vh; /* fills 100% of the viewport height */
    background: radial-gradient(circle at left center,
 rgba(255,255,255,0.9),
 rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
-  background-size: cover; /* image covers the whole area */
-  display: flex; /* for centering content if needed */
   color: #0B1C3A;
+   height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; 
+    padding: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    
 }
 .hero-section h1{
   font-family: 'caveat';
   font-size: 12px;
 }
-   
+.hero-section h2{
+    font-family: 'playfair display';
+    font-weight: 900;
+}  
+.hero-section p{
+    color: #306f91;
+}
+.btn-1, .btn-2 {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+.btn-1 {
+    background-color: #306f91;
+    color: white;
+}
+
+.btn-2 {
+    background-color: transparent;
+    color: #0B1C3A;
+    border: 2px solid #0B1C3A;
+}
+.btn-1:hover {
+    background-color: #1d5371;
+}
+
+.btn-2:hover {
+    background-color: #0B1C3A;
+    color: white;
+}
+
+
 /*Destinations Section,and Featured Section (ENDOZO)*/
 /*About Section,and Testimonials Section (KONG)*/
 /*FAQ Section and Contact Section (LAGNADA)*/
