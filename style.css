@@ -1,15 +1,28 @@
 /*NOTE WRITE YOUR CODE BELOW THE NAME*/
-body{
+*{
     margin: 0;
     padding: 0;
-    position: relative;
+    box-sizing: border-box;
+}
+body{
+    min-height: 100vh;
+    min-height: 100dvh;
     font-family: 'playfair display';
 }
-
+img{
+    max-width: 100%;
+    height: auto;
+}
 #section-2, #section-3,  #section-5, #section-6, #section-7{
     background-color: #fefeff;
-    padding: 20px;
+    min-height: 50vh;
+    padding: 60px 20px;
     text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; 
 }
 #section-8, footer{
     background-color: #306f91;
@@ -17,17 +30,24 @@ body{
     text-align: center;
 }
 /*Navbar Section, Hero Section, and Packages Section (SAGUINSIN)*/
-.navbar{
+.menu-toggle{
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #306f91;
+}
+
+.navigation{
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fefeff;
-    padding: 0 2rem;
+    padding: 0 2em;
     min-height: 70px;
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #306f91;
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 1000;
 }
@@ -42,10 +62,12 @@ body{
     text-decoration: none;
 }
 .nav-right{
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     margin-left: auto;
     display: flex;
     gap: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .nav-right a{
@@ -64,22 +86,20 @@ nav li{
    background: radial-gradient(circle at left center,
 rgba(255,255,255,0.9),
 rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
-    height: 50vh;
-    width: 100%;
+    min-height: 100vh;
+    padding: 60px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center; 
-    padding: 0;
+    text-align: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    text-align: center;
+    justify-content: center;
     color: #0B1C3A;
 }
 .hero-section h1{
   font-family: 'caveat';
-  font-size: 12px;
+  font-size: clamp(16px, 3vw, 24px);
 }
    
 .hero-section h2{
@@ -88,6 +108,12 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 }  
 .hero-section p{
     color: #306f91;
+}
+.btn-hero{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 .btn-1, .btn-2 {
     display: inline-block;
@@ -121,13 +147,12 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     background: linear-gradient(
         rgba(0, 0, 0, 0.5),
         rgba(0, 0, 0, 0.5)), url('assets/bgabtus.jpg');
-    height: 50vh;
-    width: 100%;
+    min-height: 100vh;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center; 
-    padding: 0;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -148,12 +173,12 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     margin-top: 50px;
     color: rgb(252, 252, 252);
     margin-bottom: 10px;
-    font-size: 50px;
+    font-size: clamp(28px, 5vw, 50px);
 }
 .content p{
     text-align: center;
     color: rgb(252, 252, 252);
-    font-size: 30px;
+    font-size: clamp(16px, 3vw, 30px);
     padding: 0px;
     font-family: 'Times New Roman', Times, serif;
     
@@ -197,8 +222,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     font-size: 30px;
     opacity: 1;                   
     transition: opacity 0.5s ease;  
-    position: relative;
-    top: 50px;
+    margin-top: 20px;
 
 }
 .one:hover h3 {
@@ -207,10 +231,8 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 .one p{
    text-align: center;
     color: rgb(0, 0, 0);
-    font-size: 20px;
     padding: 20px;
     font-family: 'Times New Roman', Times, serif;
-    font-size: 30px;
     margin-top: 10px;
     opacity: 0;                   
     transition: opacity 0.5s ease;  
@@ -244,7 +266,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     opacity: 1;
     transition: opacity 0.5s ease;
     position: relative;
-    top: 90px;
+    top: 50px;
 }
 .tw:hover img{
     opacity: 0;                   
@@ -259,8 +281,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     font-size: 30px;
     opacity: 1;                   
     transition: opacity 0.5s ease;  
-    position: relative;
-    top: 90px;
+    margin-top: 20px;
 
 }
 .tw:hover h3 {
@@ -270,10 +291,8 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 .tw p{
    text-align: center;
     color: rgb(0, 0, 0);
-    font-size: 20px;
     padding: 20px;
     font-family: 'Times New Roman', Times, serif;
-    font-size: 30px;
     margin-top: 10px;
     opacity: 0;                   
     transition: opacity 0.5s ease;  
@@ -307,7 +326,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     opacity: 1;
     transition: opacity 0.5s ease;
     position: relative;
-    top: 90px;
+    top: 50px;
 }
 .th:hover img{
     opacity: 0;                   
@@ -322,8 +341,7 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
     font-size: 30px;
     opacity: 1;                   
     transition: opacity 0.5s ease;  
-    position: relative;
-    top: 90px;
+    margin-top: 20px;
 
 }
 .th:hover h3 {
@@ -333,10 +351,8 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 .th p{
    text-align: center;
     color: rgb(0, 0, 0);
-    font-size: 20px;
     padding: 20px;
     font-family: 'Times New Roman', Times, serif;
-    font-size: 30px;
     margin-top: 10px;
     opacity: 0;                   
     transition: opacity 0.5s ease;  
@@ -346,6 +362,13 @@ rgba(255,255,255,0) 60%), url('assets/hero.jpg') no-repeat center center;
 }
 .th:hover p {
     opacity: 1;                    
+}
+.one p, .tw p, .th p{
+    font-size: 16px;
+}
+.one, .tw, .th{
+    min-height: 300px;
+    width: 250px;
 }
 /*hangang dito*/
 
