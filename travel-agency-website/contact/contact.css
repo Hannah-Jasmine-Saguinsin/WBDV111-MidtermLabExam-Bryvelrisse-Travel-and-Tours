@@ -45,15 +45,20 @@
 
 .contact-text {
     font-size: 12px;
-    font-family: 'source sans pro';
+    font-family: 'montserrat', sans-serif;
     display: flex;
     flex-direction: column;            /* stack TEL + number */
 }
 .contact-text p{
-    font-family: 'source sans pro';
+    font-family: 'montserrat', sans-serif;
     color: #acacac;
     font-weight: bold;
     margin: 0;
+}
+.contact-text a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
 }
 .contact-icon {
     width: 35px;

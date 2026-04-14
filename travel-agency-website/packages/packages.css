@@ -48,7 +48,7 @@
     font-size: 0.75rem;
     padding: 0 2rem 0rem 2rem;
     text-align: justify;
-    font-family: 'roboto';
+    font-family: 'montserrat', sans-serif;
     color: #0B1C3A;
 }
 .packages-content p:first-of-type{
