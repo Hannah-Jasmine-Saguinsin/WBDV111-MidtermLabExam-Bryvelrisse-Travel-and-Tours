@@ -23,9 +23,9 @@
     <!--Navbar Section-->
     <nav class="navigation">
 
-        <a href="#section-1" class="logo">Bryvelrisse Travels and Tours</a>
+        <a href="/index.html" class="logo">Bryvelrisse Travels and Tours</a>
         <div class="nav-links">
-            <a href="/travel-agency-website/home/home.html">Home</a>
+            <a href="/index.html">Home</a>
 
             <a href="/travel-agency-website/destinations/destinations.html">Destinations</a>
 
@@ -71,30 +71,28 @@
             <!-- SEARCH BAR -->
         <div class="search-bar">
 
-            <div class="search-box">
+            <div class="search-box" id="destination-box" tabindex="0">
                 <i class="fa-solid fa-location-dot" id="icon"></i>
                 <div class="text">
                     <span class="title">Where To?</span>
                     <span class="subtitle">Search for your Destination</span>
-                    <input type="text" id="destination-input" placeholder="Type destination..." autocomplete="off">
-                    <!-- suggestions dropdown -->
+                    <input type="text" id="destination-input" class="search-input" placeholder="Type destination..." autocomplete="off">
                     <div class="suggestions" id="suggestions"></div>
-                    <input type="text" placeholder=" " />
                 </div>
             </div>
 
             
             
-            <div class="search-box">
+            <div class="search-box" id="date-box" tabindex="0">
                 <i class="fa-regular fa-calendar" id="icon"></i>
                 <div class="text">
                     <span class="title">When To?</span>
                     <span class="subtitle">Select Preferred Dates</span>
+                    <input type="date" id="travel-date" class="search-input">
                 </div>
-                <input type="date" />
             </div>
 
-            <button class="search-btn">
+            <button class="search-btn" id="search-button" type="button" aria-label="Search destinations">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>

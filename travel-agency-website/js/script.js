@@ -11,49 +11,168 @@ const destinations = [
     "Bangkok, Thailand",
     "Manila, Philippines",
     "Palawan, Philippines",
-    "Cebu, Philippines"
+    "Cebu, Philippines",
+    "Boracay, Philippines",
+    "Siargao, Philippines",
+    "Bohol, Philippines"
 ];
 
+const destinationBox = document.getElementById("destination-box");
 const input = document.getElementById("destination-input");
 const suggestions = document.getElementById("suggestions");
+const dateBox = document.getElementById("date-box");
+const dateInput = document.getElementById("travel-date");
+const searchButton = document.getElementById("search-button");
 
-input.addEventListener("input", function () {
-    const value = this.value.toLowerCase();
-    suggestions.innerHTML = "";
+if (destinationBox && input && suggestions && searchButton) {
+    const setActiveBox = (activeBox) => {
+        [destinationBox, dateBox].forEach((box) => {
+            if (!box) {
+                return;
+            }
 
-    if (!value) {
+            box.classList.toggle("active", box === activeBox);
+        });
+    };
+
+    const hideSuggestions = () => {
         suggestions.style.display = "none";
-        return;
-    }
+        suggestions.innerHTML = "";
+    };
 
-    const filtered = destinations.filter(dest =>
-        dest.toLowerCase().includes(value)
-    );
+    const renderSuggestions = (matches) => {
+        suggestions.innerHTML = "";
 
-    if (filtered.length === 0) {
-        suggestions.style.display = "none";
-        return;
-    }
+        if (!matches.length) {
+            hideSuggestions();
+            return;
+        }
 
-    filtered.forEach(dest => {
-        const div = document.createElement("div");
-        div.classList.add("suggestion-item");
-        div.textContent = dest;
+        matches.forEach((destination) => {
+            const item = document.createElement("button");
+            item.type = "button";
+            item.className = "suggestion-item";
+            item.textContent = destination;
 
-        div.onclick = () => {
-            input.value = dest;
-            suggestions.style.display = "none";
-        };
+            item.addEventListener("click", () => {
+                input.value = destination;
+                hideSuggestions();
+                input.focus();
+            });
 
-        suggestions.appendChild(div);
+            suggestions.appendChild(item);
+        });
+
+        suggestions.style.display = "block";
+    };
+
+    input.addEventListener("input", () => {
+        setActiveBox(destinationBox);
+        const value = input.value.trim().toLowerCase();
+
+        if (!value) {
+            hideSuggestions();
+            return;
+        }
+
+        const filtered = destinations.filter((destination) =>
+            destination.toLowerCase().includes(value)
+        );
+
+        renderSuggestions(filtered);
     });
 
-    suggestions.style.display = "block";
-});
+    input.addEventListener("focus", () => {
+        setActiveBox(destinationBox);
+        const value = input.value.trim().toLowerCase();
 
-// close dropdown when clicking outside
-document.addEventListener("click", function (e) {
-    if (!document.getElementById("destination-box").contains(e.target)) {
-        suggestions.style.display = "none";
+        if (!value) {
+            return;
+        }
+
+        const filtered = destinations.filter((destination) =>
+            destination.toLowerCase().includes(value)
+        );
+
+        renderSuggestions(filtered);
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!destinationBox.contains(event.target)) {
+            hideSuggestions();
+        }
+
+        const clickedInsideSearchBox =
+            destinationBox.contains(event.target) ||
+            (dateBox && dateBox.contains(event.target));
+
+        if (!clickedInsideSearchBox) {
+            setActiveBox(null);
+        }
+    });
+
+    destinationBox.addEventListener("click", () => {
+        setActiveBox(destinationBox);
+        input.focus();
+    });
+
+    destinationBox.addEventListener("focusin", () => {
+        setActiveBox(destinationBox);
+    });
+
+    if (dateInput) {
+        dateInput.min = new Date().toISOString().split("T")[0];
+
+        if (dateBox) {
+            dateBox.addEventListener("click", () => {
+                setActiveBox(dateBox);
+                dateInput.focus();
+                if (typeof dateInput.showPicker === "function") {
+                    dateInput.showPicker();
+                }
+            });
+
+            dateBox.addEventListener("focusin", () => {
+                setActiveBox(dateBox);
+            });
+        }
     }
-});
+
+    const performSearch = () => {
+        const destination = input.value.trim();
+        const selectedDate = dateInput ? dateInput.value : "";
+
+        if (!destination) {
+            alert("Please enter a destination first.");
+            input.focus();
+            return;
+        }
+
+        const params = new URLSearchParams();
+        params.set("destination", destination);
+
+        if (selectedDate) {
+            params.set("date", selectedDate);
+        }
+
+        window.location.href = `/travel-agency-website/destinations/destinations.html?${params.toString()}`;
+    };
+
+    searchButton.addEventListener("click", performSearch);
+
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            performSearch();
+        }
+    });
+
+    if (dateInput) {
+        dateInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performSearch();
+            }
+        });
+    }
+}
