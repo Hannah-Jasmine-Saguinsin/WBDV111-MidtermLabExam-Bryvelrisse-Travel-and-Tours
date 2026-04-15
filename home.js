@@ -22,24 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const sliderNext = document.getElementById("sliderNext");
     const dotsWrap = document.getElementById("sliderDots");
     const slides = Array.from(document.querySelectorAll(".testimonial-slide"));
-
-    const featuredTabs = Array.from(document.querySelectorAll(".dest-tab"));
-    const featuredCards = Array.from(document.querySelectorAll(".dest-card"));
-    const destModal = document.getElementById("destModal");
-    const destModalImg = document.getElementById("destModalImg");
-    const destModalRegion = document.getElementById("destModalRegion");
-    const destModalTitle = document.getElementById("destModalTitle");
-    const destModalDesc = document.getElementById("destModalDesc");
-    const destModalBest = document.getElementById("destModalBest");
-    const destModalKnown = document.getElementById("destModalKnown");
-    const destModalClose = document.getElementById("destModalClose");
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     const destinations = packageCards.map((card) => ({
         title: card.dataset.title || "",
         node: card
     }));
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const activateSearchBox = (selectedBox) => {
         [destinationBox, dateBox].forEach((box) => {
@@ -302,6 +290,12 @@ document.addEventListener("DOMContentLoaded", () => {
     modalClose?.addEventListener("click", closePackageModal);
     modalBackdrop?.addEventListener("click", closePackageModal);
 
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closePackageModal();
+        }
+    });
+
     const fadeItems = document.querySelectorAll(".fade-in-up");
 
     if ("IntersectionObserver" in window) {
@@ -430,80 +424,12 @@ document.addEventListener("DOMContentLoaded", () => {
         startAutoSlide();
     }
 
-    if (featuredTabs.length && featuredCards.length) {
-        featuredTabs.forEach((tab) => {
-            tab.addEventListener("click", () => {
-                featuredTabs.forEach((item) => item.classList.remove("active"));
-                tab.classList.add("active");
+    featuredLink?.addEventListener("click", () => {
+        const packagesSection = document.getElementById("packages");
 
-                const filter = tab.dataset.filter;
-
-                featuredCards.forEach((card) => {
-                    const shouldShow = filter === "all" || card.dataset.region === filter;
-                    card.classList.toggle("hidden", !shouldShow);
-                });
-            });
+        packagesSection?.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+            block: "start"
         });
-    }
-
-    function openFeaturedModal(card) {
-        if (!destModal || !destModalImg || !destModalRegion || !destModalTitle || !destModalDesc || !destModalBest || !destModalKnown) {
-            return;
-        }
-
-        const cardImage = card.querySelector(".dest-card-img");
-        const cardRegion = card.querySelector(".dest-card-region");
-
-        destModalImg.src = cardImage?.src || "";
-        destModalImg.alt = card.dataset.name || "";
-        destModalRegion.textContent = cardRegion?.textContent || "";
-        destModalTitle.textContent = card.dataset.name || "";
-        destModalDesc.textContent = card.dataset.desc || "";
-        destModalBest.textContent = `Best time: ${card.dataset.best || ""}`;
-        destModalKnown.textContent = `Known for: ${card.dataset.known || ""}`;
-        destModal.classList.add("open");
-        document.body.style.overflow = "hidden";
-    }
-
-    function closeFeaturedModal() {
-        if (!destModal) {
-            return;
-        }
-
-        destModal.classList.remove("open");
-        document.body.style.overflow = "";
-    }
-
-    featuredCards.forEach((card) => {
-        card.tabIndex = 0;
-
-        card.addEventListener("click", () => openFeaturedModal(card));
-
-        card.querySelector(".dest-card-btn")?.addEventListener("click", (event) => {
-            event.stopPropagation();
-            openFeaturedModal(card);
-        });
-
-        card.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openFeaturedModal(card);
-            }
-        });
-    });
-
-    destModalClose?.addEventListener("click", closeFeaturedModal);
-
-    destModal?.addEventListener("click", (event) => {
-        if (event.target === destModal) {
-            closeFeaturedModal();
-        }
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closePackageModal();
-            closeFeaturedModal();
-        }
     });
 });
