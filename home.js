@@ -1,435 +1,169 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const galleryTrack = document.getElementById("galleryTrack");
-    const galleryLeft = document.getElementById("galleryLeft");
-    const galleryRight = document.getElementById("galleryRight");
-    const packageCards = Array.from(document.querySelectorAll(".pkg-card"));
+const galleryTrack = document.getElementById('galleryTrack');
+    const galleryLeft  = document.getElementById('galleryLeft');
+    const galleryRight = document.getElementById('galleryRight');
 
-    const pkgModal = document.getElementById("pkgModal");
-    const modalImg = document.getElementById("modalImg");
-    const modalCaption = document.getElementById("modalCaption");
-    const modalClose = document.getElementById("modalClose");
-    const modalBackdrop = document.getElementById("modalBackdrop");
-
-    const destinationBox = document.getElementById("destination-box");
-    const dateBox = document.getElementById("date-box");
-    const destinationInput = document.getElementById("destination-input");
-    const travelDateInput = document.getElementById("travel-date");
-    const searchButton = document.getElementById("search-button");
-    const suggestions = document.getElementById("suggestions");
-
-    const sliderTrack = document.getElementById("sliderTrack");
-    const sliderPrev = document.getElementById("sliderPrev");
-    const sliderNext = document.getElementById("sliderNext");
-    const dotsWrap = document.getElementById("sliderDots");
-    const slides = Array.from(document.querySelectorAll(".testimonial-slide"));
-    const destinations = packageCards.map((card) => ({
-        title: card.dataset.title || "",
-        node: card
-    }));
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const activateSearchBox = (selectedBox) => {
-        [destinationBox, dateBox].forEach((box) => {
-            if (!box) {
-                return;
-            }
-
-            box.classList.toggle("active", box === selectedBox);
-        });
-    };
-
-    if (destinationBox && destinationInput) {
-        destinationBox.addEventListener("click", () => {
-            activateSearchBox(destinationBox);
-            destinationInput.focus();
-        });
-
-        destinationInput.addEventListener("focus", () => activateSearchBox(destinationBox));
-    }
-
-    if (dateBox && travelDateInput) {
-        dateBox.addEventListener("click", () => {
-            activateSearchBox(dateBox);
-            travelDateInput.focus();
-        });
-
-        travelDateInput.addEventListener("focus", () => activateSearchBox(dateBox));
-    }
-
-    document.addEventListener("click", (event) => {
-        const clickedInsideSearch =
-            destinationBox?.contains(event.target) ||
-            dateBox?.contains(event.target) ||
-            searchButton?.contains(event.target);
-
-        if (!clickedInsideSearch) {
-            activateSearchBox(null);
-            hideSuggestions();
-        }
+    /*Arrow Button Scrolling*/
+    galleryLeft.addEventListener('click', () => {
+        galleryTrack.scrollBy({ left: -320, behavior: 'smooth' });
     });
 
-    function showSuggestions(matches) {
-        if (!suggestions || !destinationInput) {
-            return;
-        }
-
-        suggestions.innerHTML = "";
-
-        if (!matches.length) {
-            hideSuggestions();
-            return;
-        }
-
-        matches.forEach((match) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "suggestion-item";
-            button.setAttribute("role", "option");
-            button.textContent = match.title;
-
-            button.addEventListener("click", () => {
-                destinationInput.value = match.title;
-                destinationInput.setAttribute("aria-expanded", "false");
-                hideSuggestions();
-                focusPackage(match.node);
-            });
-
-            suggestions.appendChild(button);
-        });
-
-        suggestions.classList.add("show");
-        destinationInput.setAttribute("aria-expanded", "true");
-    }
-
-    function hideSuggestions() {
-        if (!suggestions || !destinationInput) {
-            return;
-        }
-
-        suggestions.classList.remove("show");
-        destinationInput.setAttribute("aria-expanded", "false");
-    }
-
-    if (destinationInput) {
-        destinationInput.addEventListener("input", () => {
-            const query = destinationInput.value.trim().toLowerCase();
-
-            if (!query) {
-                hideSuggestions();
-                return;
-            }
-
-            const matches = destinations.filter((item) =>
-                item.title.toLowerCase().includes(query)
-            );
-
-            showSuggestions(matches.slice(0, 6));
-        });
-
-        destinationInput.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                hideSuggestions();
-                destinationInput.blur();
-            }
-        });
-    }
-
-    function focusPackage(card) {
-        if (!card) {
-            return;
-        }
-
-        card.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            inline: "center",
-            block: "nearest"
-        });
-
-        card.classList.add("pkg-card--highlight");
-
-        window.setTimeout(() => {
-            card.classList.remove("pkg-card--highlight");
-        }, 1500);
-    }
-
-    function handleSearch() {
-        const query = destinationInput?.value.trim().toLowerCase() || "";
-        const selectedCard = destinations.find((item) =>
-            item.title.toLowerCase().includes(query)
-        );
-
-        if (selectedCard) {
-            focusPackage(selectedCard.node);
-        } else if (galleryTrack) {
-            galleryTrack.scrollIntoView({
-                behavior: prefersReducedMotion ? "auto" : "smooth",
-                block: "center"
-            });
-        }
-
-        hideSuggestions();
-
-        if (travelDateInput?.value) {
-            activateSearchBox(dateBox);
-        }
-    }
-
-    searchButton?.addEventListener("click", handleSearch);
-
-    destinationInput?.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            handleSearch();
-        }
+    galleryRight.addEventListener('click', () => {
+        galleryTrack.scrollBy({ left: 320, behavior: 'smooth' });
     });
 
-    if (galleryTrack && galleryLeft && galleryRight) {
-        const getScrollStep = () => Math.min(galleryTrack.clientWidth * 0.85, 340);
+    /*Drag to Scroll (Mouse)*/
+    let isDragging = false;
+    let startX     = 0;
+    let scrollLeft = 0;
 
-        const updateGalleryArrows = () => {
-            const maxScroll = galleryTrack.scrollWidth - galleryTrack.clientWidth;
-            galleryLeft.disabled = galleryTrack.scrollLeft <= 4;
-            galleryRight.disabled = galleryTrack.scrollLeft >= maxScroll - 4;
-        };
+    galleryTrack.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX     = e.pageX - galleryTrack.offsetLeft;
+        scrollLeft = galleryTrack.scrollLeft;
+        galleryTrack.style.cursor = 'grabbing';
+    });
 
-        galleryLeft.addEventListener("click", () => {
-            galleryTrack.scrollBy({ left: -getScrollStep(), behavior: "smooth" });
-        });
+    galleryTrack.addEventListener('mouseleave', () => {
+        isDragging = false;
+        galleryTrack.style.cursor = 'grab';
+    });
 
-        galleryRight.addEventListener("click", () => {
-            galleryTrack.scrollBy({ left: getScrollStep(), behavior: "smooth" });
-        });
+    galleryTrack.addEventListener('mouseup', () => {
+        isDragging = false;
+        galleryTrack.style.cursor = 'grab';
+    });
 
-        let isPointerDown = false;
-        let startX = 0;
-        let scrollStart = 0;
+    galleryTrack.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x    = e.pageX - galleryTrack.offsetLeft;
+        const walk = (x - startX) * 1.5; // scroll speed multiplier
+        galleryTrack.scrollLeft = scrollLeft - walk;
+    });
 
-        galleryTrack.addEventListener("pointerdown", (event) => {
-            isPointerDown = true;
-            startX = event.clientX;
-            scrollStart = galleryTrack.scrollLeft;
-            galleryTrack.classList.add("dragging");
-            galleryTrack.setPointerCapture(event.pointerId);
-        });
+    /*Modal Open / Close*/
+    const pkgModal     = document.getElementById('pkgModal');
+    const modalImg     = document.getElementById('modalImg');
+    const modalCaption = document.getElementById('modalCaption');
+    const modalClose   = document.getElementById('modalClose');
+    const modalBackdrop = document.getElementById('modalBackdrop');
 
-        galleryTrack.addEventListener("pointermove", (event) => {
-            if (!isPointerDown) {
-                return;
-            }
+    // Open modal when a card is clicked
+    document.querySelectorAll('.pkg-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const imgSrc = card.getAttribute('data-img');
+            const title  = card.getAttribute('data-title');
 
-            const walk = (event.clientX - startX) * 1.2;
-            galleryTrack.scrollLeft = scrollStart - walk;
-        });
+            modalImg.src       = imgSrc;
+            modalImg.alt       = title;
+            modalCaption.textContent = title;
 
-        const endPointerDrag = (event) => {
-            if (!isPointerDown) {
-                return;
-            }
-
-            isPointerDown = false;
-            galleryTrack.classList.remove("dragging");
-
-            if (event.pointerId !== undefined && galleryTrack.hasPointerCapture(event.pointerId)) {
-                galleryTrack.releasePointerCapture(event.pointerId);
-            }
-        };
-
-        galleryTrack.addEventListener("pointerup", endPointerDrag);
-        galleryTrack.addEventListener("pointercancel", endPointerDrag);
-        galleryTrack.addEventListener("lostpointercapture", () => {
-            isPointerDown = false;
-            galleryTrack.classList.remove("dragging");
-        });
-
-        galleryTrack.addEventListener("scroll", updateGalleryArrows, { passive: true });
-        window.addEventListener("resize", updateGalleryArrows);
-        updateGalleryArrows();
-    }
-
-    function openPackageModal(card) {
-        if (!pkgModal || !modalImg || !modalCaption) {
-            return;
-        }
-
-        modalImg.src = card.dataset.img || "";
-        modalImg.alt = card.dataset.title || "Package image";
-        modalCaption.textContent = card.dataset.title || "";
-
-        pkgModal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    }
-
-    function closePackageModal() {
-        if (!pkgModal || !modalImg) {
-            return;
-        }
-
-        pkgModal.classList.remove("active");
-        document.body.style.overflow = "";
-
-        window.setTimeout(() => {
-            if (!pkgModal.classList.contains("active")) {
-                modalImg.src = "";
-            }
-        }, 250);
-    }
-
-    packageCards.forEach((card) => {
-        card.tabIndex = 0;
-
-        card.addEventListener("click", () => openPackageModal(card));
-        card.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openPackageModal(card);
-            }
+            pkgModal.classList.add('active');   // show modal
+            document.body.style.overflow = 'hidden'; // lock scroll
         });
     });
 
-    modalClose?.addEventListener("click", closePackageModal);
-    modalBackdrop?.addEventListener("click", closePackageModal);
+    // Close modal — close button
+    modalClose.addEventListener('click', closeModal);
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            closePackageModal();
-        }
+    // Close modal — clicking backdrop
+    modalBackdrop.addEventListener('click', closeModal);
+
+    // Close modal — Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
     });
 
-    const fadeItems = document.querySelectorAll(".fade-in-up");
-
-    if ("IntersectionObserver" in window) {
-        const fadeObserver = new IntersectionObserver(
-            (entries, observer) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-
-                    entry.target.classList.add("visible");
-                    observer.unobserve(entry.target);
-                });
-            },
-            { threshold: 0.15 }
-        );
-
-        fadeItems.forEach((item) => fadeObserver.observe(item));
-    } else {
-        fadeItems.forEach((item) => item.classList.add("visible"));
+    function closeModal() {
+        pkgModal.classList.remove('active');
+        document.body.style.overflow = ''; // unlock scroll
+        // Clear src after animation ends to avoid flicker
+        setTimeout(() => { modalImg.src = ''; }, 300);
     }
 
-    if (sliderTrack && sliderPrev && sliderNext && dotsWrap && slides.length) {
-        let currentSlide = 0;
-        let autoSlideTimer = null;
-        let touchStartX = 0;
-        let touchEndX = 0;
 
-        slides.forEach((_, index) => {
-            const dot = document.createElement("button");
-            dot.className = "slider-dot";
-            dot.type = "button";
-            dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
-            dot.addEventListener("click", () => {
-                goToSlide(index);
-                resetAutoSlide();
-            });
-            dotsWrap.appendChild(dot);
+    /* TESTIMONIAL SLIDESHOW
+       Auto-slide every 4500ms, manual prev/next */
+
+    const sliderTrack = document.getElementById('sliderTrack');
+    const sliderPrev  = document.getElementById('sliderPrev');
+    const sliderNext  = document.getElementById('sliderNext');
+    const dotsWrap    = document.getElementById('sliderDots');
+
+    const slides      = document.querySelectorAll('.testimonial-slide');
+    const totalSlides = slides.length;
+    let currentSlide  = 0;
+    let autoSlideTimer;
+
+    /*Build Dot Indicator*/
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.classList.add('slider-dot');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        if (i === 0) dot.classList.add('active'); // first dot active
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsWrap.appendChild(dot);
+    });
+
+    /*Go To a Specific Slide*/
+    function goToSlide(index) {
+        currentSlide = index;
+
+        // Move the track: each slide is 100% of the wrapper width
+        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        // Update dot states
+        document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
         });
+    }
 
-        const dots = Array.from(dotsWrap.querySelectorAll(".slider-dot"));
+    /*Next Slide*/
+    function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides; // loop back to 0
+        goToSlide(next);
+    }
 
-        function goToSlide(index) {
-            currentSlide = (index + slides.length) % slides.length;
-            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    /*Previous Slide*/
+    function prevSlide() {
+        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        goToSlide(prev);
+    }
 
-            dots.forEach((dot, dotIndex) => {
-                dot.classList.toggle("active", dotIndex === currentSlide);
-            });
-        }
+    /*Button Listeners*/
+    sliderNext.addEventListener('click', () => {
+        nextSlide();
+        resetAutoSlide(); // restart timer after manual click
+    });
 
-        function nextSlide() {
-            goToSlide(currentSlide + 1);
-        }
+    sliderPrev.addEventListener('click', () => {
+        prevSlide();
+        resetAutoSlide();
+    });
 
-        function prevSlide() {
-            goToSlide(currentSlide - 1);
-        }
+    /*Auto-slide every 4.5 seconds*/
+    function startAutoSlide() {
+        autoSlideTimer = setInterval(nextSlide, 4500);
+    }
 
-        function startAutoSlide() {
-            if (prefersReducedMotion) {
-                return;
-            }
-
-            autoSlideTimer = window.setInterval(nextSlide, 4500);
-        }
-
-        function resetAutoSlide() {
-            if (autoSlideTimer) {
-                window.clearInterval(autoSlideTimer);
-            }
-
-            startAutoSlide();
-        }
-
-        sliderNext.addEventListener("click", () => {
-            nextSlide();
-            resetAutoSlide();
-        });
-
-        sliderPrev.addEventListener("click", () => {
-            prevSlide();
-            resetAutoSlide();
-        });
-
-        sliderTrack.addEventListener("touchstart", (event) => {
-            touchStartX = event.changedTouches[0].clientX;
-        }, { passive: true });
-
-        sliderTrack.addEventListener("touchend", (event) => {
-            touchEndX = event.changedTouches[0].clientX;
-            const swipeDistance = touchEndX - touchStartX;
-
-            if (Math.abs(swipeDistance) < 40) {
-                return;
-            }
-
-            if (swipeDistance < 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-
-            resetAutoSlide();
-        }, { passive: true });
-
-        const pauseTargets = [sliderTrack, sliderPrev, sliderNext, dotsWrap];
-
-        pauseTargets.forEach((target) => {
-            target.addEventListener("mouseenter", () => {
-                if (autoSlideTimer) {
-                    window.clearInterval(autoSlideTimer);
-                }
-            });
-
-            target.addEventListener("mouseleave", resetAutoSlide);
-            target.addEventListener("focusin", () => {
-                if (autoSlideTimer) {
-                    window.clearInterval(autoSlideTimer);
-                }
-            });
-            target.addEventListener("focusout", resetAutoSlide);
-        });
-
-        goToSlide(0);
+    function resetAutoSlide() {
+        clearInterval(autoSlideTimer);
         startAutoSlide();
     }
 
-    featuredLink?.addEventListener("click", () => {
-        const packagesSection = document.getElementById("packages");
+    startAutoSlide(); // kick off auto-slide on page load
 
-        packagesSection?.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            block: "start"
+
+    /* FADE-IN ON SCROLL - Adds .visible class when element enters view*/
+    const fadeItems = document.querySelectorAll('.fade-in-up');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // run once
+            }
         });
-    });
-});
+    }, { threshold: 0.15 });
+
+    fadeItems.forEach(item => observer.observe(item));
