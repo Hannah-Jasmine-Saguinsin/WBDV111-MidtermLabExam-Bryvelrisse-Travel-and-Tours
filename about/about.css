@@ -1,7 +1,7 @@
 /* General heading */
 .abt-content {
     text-align: center;
-    color: var(--white);
+    color: var(--primary-dark);
     min-height: 100vh;       
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@
 .abt-content h3 {
     font-size: 1.5rem;
     margin-top: 20px;
-    color: var(--white);
+    color: var(--primary-dark);
     font-family: playfair display, serif;
 }
 .abt-content .tagline {
@@ -34,27 +34,27 @@
     color: var(--secondary-light);
 }
 .learn-more-btn {
-  padding: 12px 28px;
-  background-color: white;
-  color: var(--primary-dark);
-  font-size: 0.95rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 50px;            
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  width: 200px;
-  margin-top: 60px;
-  align-items: left;
+    padding: 12px 28px;
+    background-color: white;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;            
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 200px;
+    margin-top: 60px;
+    align-items: left;
 }
 .learn-more-btn:hover {
-  background: whitesmoke;
-  color: var(--white);
-  transform: scale(1.05);
+    background: whitesmoke;
+    color: var(--white);
+    transform: scale(1.05);
 }
 .learn-more-btn:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
 
 /* Segment base */
@@ -92,7 +92,7 @@
     font-size: 2.5rem;
 }
 .about p {
-    color: var(--secondary-light);
+    color: var(--secondarydark);
     font-size: 30px;
     line-height: 1.8;
     font-family: Montserrat, sans-serif;
