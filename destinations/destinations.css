@@ -31,12 +31,12 @@
 .destination-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 120px; /* Increased from 30px to 60px */
-    padding: 0 var(--home-gutter) var(--home-section-pad);
-    max-width: 1100px; /* Increased max-width slightly to allow for the wider gap */
-    margin: 0 auto;
+    gap: 80px; 
+    padding: 60px 15% var(--home-section-pad); /* Added top padding and percentage side padding */
+    width: 100%; /* Ensures the section spans the full width */
+    margin: 0; 
     align-items: stretch;
-    
+    background: rgba(10, 88, 166, 0.045)
 }
 
 /* 3. The Column "Box" Containers */
@@ -157,7 +157,6 @@
 
 /* 7. Why Choose Us Section */
 .why-choose-us {
-    background: #ffffff;
     padding: var(--home-section-pad) var(--home-gutter);
     border-top: 1px solid #eee;
 }
