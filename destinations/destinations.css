@@ -26,6 +26,12 @@
     color: var(--white);
     margin-bottom: 12px;
 }
+.destinations-header p {
+    font-size: 1rem;
+    color: whitesmoke;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
 /* 2. Main Grid Layout */
 .destination-columns {
@@ -58,7 +64,7 @@
 
 .section-header h3 {
     font-size: 1.5rem;
-    color: var(--navy-deep);
+    color: whitesmoke;
     margin-bottom: 8px;
 }
 
@@ -159,6 +165,8 @@
 .why-choose-us {
     padding: var(--home-section-pad) var(--home-gutter);
     border-top: 1px solid #eee;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('/assets/bg.jpg'); 
 }
 
 .values-grid {
