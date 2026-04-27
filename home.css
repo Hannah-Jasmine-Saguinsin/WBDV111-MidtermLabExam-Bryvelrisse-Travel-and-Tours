@@ -481,60 +481,56 @@ html {
 
 /* Testimonials */
 .testimonials-slider {
-    padding: 80px 24px;
-    background: linear-gradient(135deg, #16324a 0%, #234e63 50%, #11263b 100%);
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #0B1C3A 0%, #1a3a56 50%, #0d2b44 100%);
     overflow: hidden;
 }
 
-.testimonials-slider .section-header h3 {
-    color: var(--white);
-}
+.testimonials-slider .section-header h3 { color: #ffffff; }
+.testimonials-slider .section-subtitle   { color: rgba(255, 255, 255, 0.6); }
 
-.testimonials-slider .section-subtitle {
-    color: rgba(255, 255, 255, 0.72);
-}
-
+/* Container: holds arrows + the slide window */
 .slider-container {
     display: flex;
-    position: relative;
     align-items: center;
     gap: 16px;
     max-width: 860px;
     margin: 0 auto;
 }
 
+/* The visible window — clips everything outside */
 .slider-track-wrap {
     overflow: hidden;
     width: 100%;
     border-radius: 24px;
 }
 
+/* The moving strip of slides */
 .slider-track {
     display: flex;
-    overflow-x: auto;   
-    scroll-snap-type: x mandatory;
-    transition: transform 0.55s ease;
-    will-change: transform;
-    touch-action: pan-y;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform; /* performance hint */
 }
 
+/* Each individual slide takes 100% of the wrapper */
 .testimonial-slide {
-    flex: 0 0 100%;
-    scroll-snap-align: center;
     flex-shrink: 0;
     width: 100%;
 }
+
+/* The styled card inside each slide */
 .testi-card {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
     padding: 44px 48px;
     text-align: center;
-    color: var(--white);
+    color: #fff;
 }
 
+/* Stars row */
 .testi-stars {
     font-size: 1.4rem;
     margin-bottom: 24px;
@@ -544,26 +540,28 @@ html {
 .testi-stars small {
     font-family: "montserrat", sans-serif;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     vertical-align: middle;
     margin-left: 4px;
 }
 
+/* Quote text */
 .testi-card blockquote {
     font-family: "montserrat", sans-serif;
     font-size: 1rem;
     font-style: italic;
     line-height: 1.85;
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(255, 255, 255, 0.9);
     margin: 0 0 32px;
     position: relative;
 }
 
+/* Decorative quote mark */
 .testi-card blockquote::before {
     content: "\201C";
-    font-family: "playfair display", serif;
+    font-family: "Playfair Display", serif;
     font-size: 5rem;
-    color: rgba(173, 212, 230, 0.22);
+    color: rgba(134, 161, 231, 0.25);
     position: absolute;
     top: -30px;
     left: -10px;
@@ -571,6 +569,7 @@ html {
     pointer-events: none;
 }
 
+/* Footer: avatar + name */
 .testi-footer {
     display: flex;
     align-items: center;
@@ -578,27 +577,28 @@ html {
     gap: 14px;
 }
 
+/* Avatar circle with initials */
 .testi-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4f88a6, #8db5c8);
+    background: linear-gradient(135deg, #306f91, #86a1e7);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: "montserrat", sans-serif;
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--white);
+    color: #fff;
     flex-shrink: 0;
 }
 
 .testi-name {
     display: block;
-    font-family: "playfair display", serif;
+    font-family: "montserrat", sans-serif;
     font-size: 0.95rem;
-    font-weight: 900;
-    color: var(--white);
+    font-weight: 700;
+    color: #fff;
     font-style: normal;
 }
 
@@ -606,10 +606,11 @@ html {
     display: block;
     font-family: "montserrat", sans-serif;
     font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.55);
     margin-top: 2px;
 }
 
+/* Prev / Next arrow buttons */
 .slider-btn {
     flex-shrink: 0;
     width: 48px;
@@ -617,23 +618,22 @@ html {
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.08);
-    color: var(--white);
+    color: #fff;
     font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 5;
     transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
 .slider-btn:hover {
-    background: #4f88a6;
-    border-color: #4f88a6;
+    background: #306f91;
+    border-color: #306f91;
     transform: scale(1.08);
 }
 
+/* Dot indicators */
 .slider-dots {
     display: flex;
     justify-content: center;
@@ -646,15 +646,35 @@ html {
     height: 10px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.25);
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
     padding: 0;
 }
 
 .slider-dot.active {
-    background: #add4e6;
+    background: #86a1e7;
     transform: scale(1.35);
+}
+
+/* Responsive: hide arrows on very small screens */
+@media (max-width: 600px) {
+    .testi-card { padding: 32px 24px; }
+
+    .testi-card blockquote {
+        font-size: 0.9rem;
+    }
+
+    .slider-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .slider-btn { display: none; }  /* hide on tiny screens, dots still work */
+    .slider-track-wrap { border-radius: 16px; }
 }
 /*CTA SECTION*/
 .cta-section {
