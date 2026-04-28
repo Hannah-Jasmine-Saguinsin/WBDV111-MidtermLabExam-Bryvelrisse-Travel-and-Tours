@@ -99,18 +99,33 @@
     var phoneInput  = $('#phone');
     var sPhoneInput = $('#sPhone');
 
-    if (phoneInput) {
+   if (phoneInput) {
     phoneInput.addEventListener('input', function () {
-        this.value = this.value.replace(/[^\d\s\+\-\(\)]/g, '');
+        var digits = this.value.replace(/\D/g, '');
+        if (digits.startsWith('63')) digits = digits.slice(2);
+        if (digits.startsWith('0')) digits = digits.slice(1);
+        if (digits.length > 10) digits = digits.slice(0, 10);
+        this.value = digits.length ? '+63 ' + digits : '';
     });
-    }
+}
 
     if (sPhoneInput) {
-        sPhoneInput.addEventListener('input', function () {
-        this.value = this.value.replace(/[^\d\s\+\-\(\)]/g, '');
-        });
+    sPhoneInput.addEventListener('input', function () {
+        var digits = this.value.replace(/\D/g, '');
+        if (digits.startsWith('63')) digits = digits.slice(2);
+        if (digits.startsWith('0')) digits = digits.slice(1);
+        if (digits.length > 10) digits = digits.slice(0, 10);
+        this.value = digits.length ? '+63 ' + digits : '';
+    });
+}
+    var nameInputs = [$('#fullName'), $('#sName')];
+    nameInputs.forEach(function (input) {
+    if (input) {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+           });
     }
-
+    });
 
     /*MAIN CONTACT FORM*/
     var mainForm    = $('#mainForm');
@@ -153,11 +168,10 @@
             if (!phone.value.trim()) {
                 setError(phone, 'Please enter your phone number.');
                 valid = false;
-            } else if (!/^[\d\s\+\-\(\)]{11}$/.test(phone.value.trim())) {
-                setError(phone, 'Please enter a valid 11-digit phone number.');
-                valid = false;
+            } else if (!/^\+63 \d{10}$/.test(phone.value.trim())) {
+            setError(phone, 'Please enter a valid PH number.');
+             valid = false;
             }
-
             if (!subject.value) {
                 setError(subject, 'Please select a subject.');
                 valid = false;
@@ -252,6 +266,7 @@
 
             var sName       = $('#sName');
             var sEmail      = $('#sEmail');
+            var sPhone      = $('#sPhone');
             var sConcern    = $('#concernType');
             var sMsgEl      = $('#sMessage');
             var valid       = true;
@@ -267,6 +282,13 @@
             } else if (!isValidEmail(sEmail.value)) {
                 setError(sEmail, 'Please enter a valid email address.');
                 valid = false;
+            }
+            if (!sPhone.value.trim()) {
+            setError(sPhone, 'Please enter your phone number.');
+                valid = false;
+            } else if (!/^\+63 \d{10}$/.test(sPhone.value.trim())) {
+                setError(sPhone, 'Please enter a valid PH number.');
+               valid = false;
             }
 
             if (!sConcern.value) {
