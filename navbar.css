@@ -27,7 +27,7 @@
 
 /*Logo*/
 .navigation .logo {
-  font-family: 'gochihand', cursive;
+  font-family: 'playfair_display', changed;
   font-size: clamp(1.1rem, 2.2vw, 1.7rem);
   font-weight: bold;
   color: var(--nav-primary);
