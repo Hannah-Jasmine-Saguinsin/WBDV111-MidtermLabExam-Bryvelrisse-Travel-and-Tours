@@ -27,7 +27,7 @@
     font-size: 1rem;
     margin-top: 20px;
     color: var(--primary-dark);
-    font-family: playfair display, serif;
+    font-family: PlayfairDisplay, serif;
 }
 .abt-content .tagline {
     font-size: 1rem;
@@ -148,7 +148,7 @@
 }
 .services h3 {
     font-size: 2.5rem;
-    font-family: "Playfair Display", serif;
+    font-family: PlayfairDisplay, serif;
     color: var(--primary-dark);
     margin-bottom: 0;
 }
@@ -262,7 +262,7 @@
 .mission h3, .vision h3, .goals h3 {
     font-size: 1.5rem;
     color: var(--secondary-light-dark);
-    font-family: playfair display, serif;
+    font-family: PlayfairDisplay, serif;
     position: static; /* removed absolute */
     margin: 0;
 }
