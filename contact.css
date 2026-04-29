@@ -114,6 +114,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     flex-direction: column;
     gap: 0;
+    
 }
 
 .panel-title {
@@ -171,7 +172,7 @@ a { text-decoration: none; color: inherit; }
 
 .info-text a,
 .info-text span {
-    font-size: 0.84rem;
+    font-size: 0.76rem;
     font-weight: 600;
     color: var(--white);
     transition: color 0.3s ease;
@@ -446,9 +447,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 .faq-answer {
-    max-height: none;
-    overflow: visible;
-    padding: 0 24px 22px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 24px;
 }
 
 .faq-answer p {
